@@ -12,12 +12,12 @@ DECLARE
   actionId INTEGER;
 BEGIN
   FOREACH actionId IN ARRAY actions LOOP
-    INSERT INTO inr."Permission" (
-      "actionId",
-      "featureId",
-      "userId",
-      "createdById",
-      "createdAt"
+    INSERT INTO inr.permission (
+      action_id,
+      feature_id,
+      user_id,
+      created_by_id,
+      created_at
     ) VALUES (
       actionId,
       permissionFeatureId,

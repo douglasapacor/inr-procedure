@@ -12,15 +12,15 @@ AS $$
 BEGIN
   RETURN(
     SELECT 
-        count(g.*)
-    FROM inr."Group" AS g
+        count(g.id)
+    FROM inr."group" AS g
     WHERE (groupName IS NULL OR g.name ILIKE groupName || '%')
     AND (groupCanonical IS NULL OR g.canonical ILIKE groupCanonical || '%')
     AND (groupColor IS NULL OR g.color ILIKE groupColor || '%')
     AND g.active = groupActive
     AND g.super = groupSuper
-    AND g."deletedAt" ISNULL
-    AND g."deletedById" ISNULL
+    AND g.deleted_at ISNULL
+    AND g.deleted_by_id ISNULL
   );
 END;
 $$ LANGUAGE plpgsql;

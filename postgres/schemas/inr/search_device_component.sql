@@ -1,3 +1,4 @@
+-- Active: 1729025248584@@52.54.164.215@9002@clnxiu2o300dj9gtg4f21g3hd@inr
 DROP FUNCTION IF EXISTS inr.search_device_component;
 
 CREATE OR REPLACE FUNCTION inr.search_device_component (
@@ -16,15 +17,15 @@ BEGIN
   SELECT 
     dc.id,
     dc.name,
-    dc."deviceId"
+    dc.device_id
   FROM 
-    inr."DeviceComponent" as dc
+    inr.device_component as dc
   WHERE 
     (nameDeviceComponent IS NULL 
       OR dc.name ILIKE nameDeviceComponent || '%')
-    AND (dId IS NULL OR dc."deviceId" = dId)
-    AND dc."deletedAt" ISNULL
-    AND dc."deletedById" ISNULL
+    AND (dId IS NULL OR dc.device_id = dId)
+    AND dc.deleted_at ISNULL
+    AND dc.deleted_by_id ISNULL
   ORDER BY 
     dc.name DESC
   LIMIT actionLimit

@@ -1,3 +1,4 @@
+-- Active: 1729025248584@@52.54.164.215@9002@clnxiu2o300dj9gtg4f21g3hd@inr
 DROP FUNCTION IF EXISTS inr.get_user_by_id;
 
 CREATE OR REPLACE FUNCTION inr.get_user_by_id (
@@ -6,28 +7,28 @@ CREATE OR REPLACE FUNCTION inr.get_user_by_id (
   id INTEGER,
   super BOOLEAN,
   active BOOLEAN,
-  groupId INTEGER,
-  groupName VARCHAR(100),
-  "createdById" INTEGER,
-  createdName VARCHAR(200),
-  "createdAt" TIMESTAMP(3),
-  "updatedById" INTEGER,
-  updatedName VARCHAR(200),
-  "updatedAt" TIMESTAMP(3),
+  group_id INTEGER,
+  group_name VARCHAR(100),
+  created_by_id INTEGER,
+  created_name VARCHAR(200),
+  created_at TIMESTAMP(3),
+  updated_by_id INTEGER,
+  updated_name VARCHAR(200),
+  updated_at TIMESTAMP(3),
   name VARCHAR(200),
   email VARCHAR(200),
   cpf VARCHAR(14),
   rg VARCHAR(11),
   cellphone VARCHAR(11),
-  addressId INTEGER,
+  address_id INTEGER,
   cep VARCHAR(8),
   street VARCHAR(200),
-  streetNumber VARCHAR(10),
+  street_number VARCHAR(10),
   neighborhood VARCHAR(100),
-  "cityIbge" INTEGER,
-  "cityName" VARCHAR(300),
-  estateIbge INTEGER,
-  estateName VARCHAR(300),
+  city_ibge INTEGER,
+  city_name VARCHAR(300),
+  estate_Ibge INTEGER,
+  estate_name VARCHAR(300),
   acronym VARCHAR(2)
 )
 AS $$
@@ -37,49 +38,49 @@ BEGIN
     us.id,
     us.super,
     us.active,
-    us."groupId",
-    gr.name AS "groupName",
-    us."createdById",
-    pr.name AS "createdName",
-    us."createdAt",
-    us."updatedById",
-    pr2.name AS "updatedName",
-    us."updatedAt",
+    us.group_id,
+    gr.name AS "group_name",
+    us.created_by_id,
+    pr.name AS "created_name",
+    us."created_at",
+    us."updated_by_id",
+    pr2.name AS "updated_name",
+    us."updated_at",
     pr3.name,
     pr3.email,
     pr3.cpf,
     pr3.rg,
     pr3.cellphone,
-    pr3."addressId",
+    pr3.address_id,
     addr.cep,
     addr.street,
-    addr."streetNumber",
+    addr.street_number,
     addr.neighborhood,
-    addr."cityIbge",
-    ci.name AS "cityName",
-    st.ibge AS "estateIbge",
-    st.name AS "estateName",
+    addr.city_ibge,
+    ci.name AS "city_name",
+    st.ibge AS "estate_Ibge",
+    st.name AS "estate_name",
     st.acronym
-  FROM inr."User" AS us
-  LEFT JOIN inr."Profile" AS pr 
-    ON pr."userId" = us."createdById"
-  LEFT JOIN inr."Group" AS gr
-    ON gr.id = us."groupId"
-  LEFT JOIN inr."Profile" pr2
-    ON pr2."userId" = us."updatedById"
-  LEFT JOIN inr."Profile" pr3
-    ON pr3."userId" = us.id
-  LEFT JOIN inr."Address" AS addr
-    ON addr.id = pr3."addressId"
-  LEFT JOIN inr."City" AS ci
-    ON ci.ibge = addr."cityIbge"
-  LEFT JOIN inr."State" AS st
-    ON st.ibge = ci."stateIbge"
+  FROM inr."user" AS us
+  LEFT JOIN inr.profile AS pr 
+    ON pr.user_id = us.created_by_id
+  LEFT JOIN inr."group" AS gr
+    ON gr.id = us.group_id
+  LEFT JOIN inr.profile pr2
+    ON pr2.user_id = us.updated_by_id
+  LEFT JOIN inr.profile pr3
+    ON pr3.user_id = us.id
+  LEFT JOIN inr.address AS addr
+    ON addr.id = pr3.address_id
+  LEFT JOIN inr.city AS ci
+    ON ci.ibge = addr.city_ibge
+  LEFT JOIN inr.state AS st
+    ON st.ibge = ci.state_ibge
   WHERE 
     us.id = uuser_id
   AND
-    us."deletedAt" IS NULL
+    us.deleted_at IS NULL
   AND 
-    us."deletedById" IS NULL;
+    us.deleted_by_id IS NULL;
 END;
 $$ LANGUAGE plpgsql;

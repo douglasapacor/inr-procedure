@@ -10,8 +10,8 @@ AS $$
 DECLARE
   ret_id INTEGER;
 BEGIN
-  INSERT INTO inr."DeviceComponent" (
-    name, "deviceId", "createdById", "createdAt"
+  INSERT INTO inr.device_component (
+    name, device_id, created_by_id, created_at
   ) VALUES(
     deviceName, deviceId, createdBy, now()
   ) RETURNING id

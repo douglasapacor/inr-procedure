@@ -10,11 +10,11 @@ AS $$
 DECLARE
   ret_id INTEGER;
 BEGIN
-  INSERT INTO inr."Action" (
+  INSERT INTO inr."action" (
     "name",
     canonical,
-    "createdById",
-    "createdAt"
+    created_by_id,
+    created_at
   )
   VALUES (
     actionName,

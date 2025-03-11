@@ -21,21 +21,21 @@ BEGIN
     a.id,
     a.name,
     a.canonical,
-    a."createdById",
+    a.created_by_id,
     p."name" as "createdName",
-    a."createdAt",
-    a."updatedById",
+    a.created_at,
+    a.updated_by_id,
     p2."name" as "updatedName",
-    a."updatedAt"
+    a.updated_at
   FROM
-    inr."Action" a
-  LEFT JOIN inr."Profile" p on
-    p."userId" = a."createdById"
-  LEFT JOIN inr."Profile" p2 on
-    p2."userId" = a."updatedById"
+    inr."action" a
+  LEFT JOIN inr.profile p on
+    p.user_id = a.created_by_id
+  LEFT JOIN inr.profile p2 on
+    p2.user_id = a.updated_by_id
   WHERE
     a.id = actionId
-  AND a."deletedById" ISNULL
-  AND a."deletedAt" ISNULL;
+  AND a.deleted_by_id ISNULL
+  AND a.deleted_at ISNULL;
 END;
 $$ LANGUAGE PLPGSQL;

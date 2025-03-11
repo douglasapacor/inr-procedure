@@ -9,13 +9,11 @@ AS $$
 DECLARE
   res_count INTEGER;
 BEGIN
-  DELETE FROM inr."FeatureAction" WHERE "featureId" = featureId;
-
-  UPDATE inr."Feature" SET
-    "deletedById" = deletedBy,
-    "deletedAt" = now()
+  DELETE FROM inr.feature_action WHERE feature_id = featureId;
+  UPDATE inr.feature SET
+    deleted_by_id = deletedBy,
+    deleted_at = now()
   WHERE id = featureId;
-  
   GET DIAGNOSTICS res_count = ROW_COUNT;
   RETURN res_count;
 COMMIT;

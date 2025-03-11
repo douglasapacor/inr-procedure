@@ -22,36 +22,36 @@ BEGIN
     f.icon,
     f."path",
     f.canonical,
-    f."deviceComponentsId",
+    f.device_components_id,
     f.visible,
     dc."name" as "deviceName",
-    dc."deviceId",
+    dc.device_id,
     (
     SELECT
       json_agg(jsonb_build_object('id',
-      fa."actionId",
+      fa.action_id,
       'name',
       ac.name,
       'canonical',
       ac.canonical))::JSONB
     FROM
-      inr."FeatureAction" fa
-    INNER JOIN inr."Action" ac
+      inr.feature_action fa
+    INNER JOIN inr."action" ac
     ON
-      ac.id = fa."actionId"
+      ac.id = fa.action_id
     WHERE
-      fa."featureId" = f.id
+      fa.feature_id = f.id
       AND 
-      ac."deletedAt" IS NULL
+      ac.deleted_at IS NULL
       AND
-      ac."deletedById" IS NULL
+      ac.deleted_by_id IS NULL
     ) AS actions
   FROM
-    inr."Feature" f
-  INNER JOIN "DeviceComponent" dc ON
-    dc.id = f."deviceComponentsId"
+    inr.feature f
+  INNER JOIN device_component dc ON
+    dc.id = f.device_components_id
   WHERE
-    f."deletedById" IS NULL
-    AND f."deletedAt" IS NULL;
+    f.deleted_by_id IS NULL
+    AND f.deleted_at IS NULL;
 END;
 $$ LANGUAGE plpgsql;

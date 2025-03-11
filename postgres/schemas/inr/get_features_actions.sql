@@ -1,4 +1,4 @@
--- Active: 1729097755891@@52.54.164.215@9002@clnxiu2o300dj9gtg4f21g3hd@inr
+-- Active: 1729025248584@@52.54.164.215@9002@clnxiu2o300dj9gtg4f21g3hd@inr
 DROP FUNCTION IF EXISTS inr.get_features_actions;
 
 CREATE OR REPLACE FUNCTION inr.get_features_actions (
@@ -10,9 +10,9 @@ AS $$
 BEGIN
   RETURN QUERY
   SELECT 
-    "actionId" 
+    action_id 
   FROM 
-    inr."FeatureAction" 
-  WHERE "featureId" = feature;
+    inr.feature_action 
+  WHERE feature_id = feature;
 END;
 $$ LANGUAGE plpgsql;

@@ -16,14 +16,14 @@ DECLARE
   feature JSONB;
 BEGIN
   -- Inserir o grupo
-  INSERT INTO inr."Group" (
+  INSERT INTO inr."group" (
     active,
     canonical,
     name, 
     super,
     color, 
-    "createdById", 
-    "createdAt"
+    created_by_id, 
+    created_at
   ) VALUES (
     groupActive, 
     groupCanonical,
@@ -37,10 +37,10 @@ BEGIN
   IF features IS NOT NULL AND array_length(features, 1) IS NOT NULL THEN
     FOREACH feature IN ARRAY features LOOP
       RAISE NOTICE 'Processando feature: %', feature;
-      INSERT INTO inr."GroupFeature" (
-        "groupId",
-        "featureId",
-        "freeForGroup"
+      INSERT INTO inr.group_feature (
+        group_id,
+        feature_id,
+        free_for_group
       ) VALUES (
         res_id,
         (feature->>'id')::INTEGER,

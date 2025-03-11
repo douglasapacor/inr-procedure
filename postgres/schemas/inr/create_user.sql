@@ -17,19 +17,19 @@ CREATE OR REPLACE FUNCTION inr.create_user (
 ) RETURNS INTEGER
 AS $$
 DECLARE
-  user_id INTEGER;
-  address_id INTEGER;
+  user_id_var INTEGER;
+  address_id_var INTEGER;
 BEGIN
 
-  INSERT INTO inr."User" (
+  INSERT INTO inr.user (
     super,
-    "groupId",
+    group_id,
     password,
-    "needChange",
+    need_change,
     active,
     connected,
-    "createdById",
-    "createdAt"
+    created_by_id,
+    created_at
   ) VALUES (
     userSuper,
     userGroupId,
@@ -39,18 +39,18 @@ BEGIN
     true,
     userCreatedBy,
     now()
-  ) RETURNING id INTO user_id;
+  ) RETURNING id INTO user_id_var;
 
   CASE WHEN (userAddress IS NOT NULL) THEN
-    INSERT INTO inr."Address"(
+    INSERT INTO inr.address(
       cep, 
       street, 
-      "streetNumber", 
+      street_number, 
       neighborhood, 
-      "cityIbge", 
+      city_ibge, 
       observation, 
-      "createdById", 
-      "createdAt" 
+      created_by_id, 
+      created_at 
     ) VALUES (
       userAddress->>'cep',
       userAddress->>'street',
@@ -60,43 +60,43 @@ BEGIN
       userAddress->>'observation',
       userCreatedBy,
       now()
-    ) RETURNING id INTO address_id;    
+    ) RETURNING id INTO address_id_var;    
     
-    INSERT INTO inr."Profile" (
+    INSERT INTO inr.profile (
       name,
       email,
       rg,
       cpf,
       cellphone,      
-      "addressId",
-      "userId"
+      address_id,
+      user_id
     ) VALUES (
       userName,
       userEmail,
       userRg,
       userCpf,
       userCellphone,
-      address_id,
-      user_id
+      address_id_var,
+      user_id_var
     );
   ELSE
-    INSERT INTO inr."Profile" (
+    INSERT INTO inr.profile (
       name,
       email,
       rg,
       cpf,
       cellphone,
-      "userId"
+      user_id
     ) VALUES (
       userName,
       userEmail,
       userRg,
       userCpf,
       userCellphone,
-      user_id
+      user_id_var
     );
   END CASE;
-  RETURN user_id;
+  RETURN user_id_var;
 COMMIT;
 END;
 $$ LANGUAGE plpgsql;

@@ -20,10 +20,10 @@ BEGIN
         f.path,
         f.visible,
         dc.name AS "deviceComponentsName"
-    FROM inr."Feature" f
-    INNER JOIN inr."DeviceComponent" dc ON 
-        dc.id = f."deviceComponentsId"
-    WHERE f."deletedAt" IS NULL 
-    AND f."deletedById" IS NULL;
+    FROM inr.feature f
+    INNER JOIN inr.device_component dc ON 
+        dc.id = f.device_components_id
+    WHERE f.deleted_at IS NULL 
+    AND f.deleted_by_id IS NULL;
 END;
 $$ LANGUAGE plpgsql;

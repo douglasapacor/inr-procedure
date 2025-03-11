@@ -14,8 +14,8 @@ AS $$
 BEGIN
   RETURN(
     SELECT
-      count(f.*)
-    FROM inr."Feature" AS f
+      count(f.id)
+    FROM inr.feature AS f
     WHERE
       (featureName IS NULL OR f.name ILIKE featureName || '%' )
       AND (featureIcon IS NULL OR f.icon ILIKE featureIcon || '%')
@@ -23,9 +23,9 @@ BEGIN
       AND (featurePath IS NULL OR f.path ILIKE featurePath || '%')
       AND (featureActive IS NULL OR f.active = featureActive)
       AND (featureVisible IS NULL OR f.visible =  featureVisible)
-      AND (featureDeviceComponentsId IS NULL OR f."deviceComponentsId" = featureDeviceComponentsId)
-      AND f."deletedAt" ISNULL
-      AND f."deletedById" ISNULL
+      AND (featureDeviceComponentsId IS NULL OR f.device_components_id = featureDeviceComponentsId)
+      AND f.deleted_at ISNULL
+      AND f.deleted_by_id ISNULL
   );
 END;
 $$ LANGUAGE plpgsql;

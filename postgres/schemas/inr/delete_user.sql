@@ -8,26 +8,26 @@ AS $$
 DECLARE
   res_count INTEGER;
 BEGIN
-  DELETE FROM inr."Permission" WHERE "userId" = uuser_id;
+  DELETE FROM inr.permission WHERE user_id = uuser_id;
 
   WITH user_profile as (
     SELECT * 
-    FROM inr."Profile"
-    WHERE "userId" = uuser_id
+    FROM inr.profile
+    WHERE user_id = uuser_id
   ) 
 
-  UPDATE inr."Address" addr
+  UPDATE inr.address addr
     SET
-      "deletedAt" = now(),
-      "deletedById" = deletedBy
+      deleted_at = now(),
+      deleted_by_id = deletedBy
   FROM user_profile
   WHERE 
-    addr.id = user_profile."addressId";
+    addr.id = user_profile.address_id;
 
-  UPDATE inr."User" us
+  UPDATE inr."user" us
     SET 
-      "deletedAt" = now(),
-      "deletedById" = deletedBy
+      deleted_at = now(),
+      deleted_by_id = deletedBy
   WHERE 
     us.id = uuser_id;
 

@@ -11,11 +11,11 @@ AS $$
 DECLARE
   res_count integer;
 BEGIN
-  UPDATE inr."DeviceComponent" SET
+  UPDATE inr.device_component SET
     name = deviceName,
-    "deviceId" = devId,
-    "updatedById" = updatedBy,
-    "updatedAt" = now()
+    device_id = devId,
+    updated_by_id = updatedBy,
+    updated_at = now()
   WHERE id = idDevice;
   GET DIAGNOSTICS res_count = ROW_COUNT;
   RETURN res_count;

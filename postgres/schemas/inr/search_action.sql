@@ -1,3 +1,4 @@
+-- Active: 1729025248584@@52.54.164.215@9002@clnxiu2o300dj9gtg4f21g3hd@inr
 DROP FUNCTION IF EXISTS inr.search_action;
 
 CREATE OR REPLACE
@@ -19,14 +20,14 @@ BEGIN
     a.name,
     a.canonical
   FROM
-    inr."Action" a
+    inr."action" a
   WHERE 
     (nameAction IS NULL 
       OR a.name ILIKE nameAction || '%')
     AND (canonicalName IS NULL 
       OR a.canonical ILIKE canonicalName || '%')
-    AND a."deletedAt" ISNULL
-    AND a."deletedById" ISNULL
+    AND a.deleted_at ISNULL
+    AND a.deleted_by_id ISNULL
   ORDER BY
     a."name" DESC
   LIMIT actionLimit 

@@ -11,10 +11,10 @@ DECLARE
   res_count integer;
 BEGIN
   UPDATE
-    inr."Action"
+    inr."action"
   SET
-    "deletedById" = deletedBy,
-    "deletedAt" = now()
+    deleted_by_id = deletedBy,
+    deleted_at = now()
   WHERE
     id = actionId;
 

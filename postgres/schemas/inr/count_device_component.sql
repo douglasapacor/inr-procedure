@@ -9,16 +9,16 @@ AS $$
 BEGIN
   RETURN (
     SELECT 
-      count(dc.*)
+      count(dc.id)
     FROM 
-      inr."DeviceComponent" as dc
+      inr.device_component as dc
     WHERE 
       (nameDeviceComponent IS NULL 
         OR dc.name ILIKE nameDeviceComponent || '%')
       AND (dId IS NULL 
-        OR dc."deviceId" = dId)
-      AND dc."deletedAt" ISNULL
-      AND dc."deletedById" ISNULL
+        OR dc.device_id = dId)
+      AND dc.deleted_at ISNULL
+      AND dc.deleted_by_id ISNULL
   );
 END;
 $$ LANGUAGE plpgsql;

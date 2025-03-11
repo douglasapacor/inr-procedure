@@ -1,3 +1,4 @@
+-- Active: 1729025248584@@52.54.164.215@9002@clnxiu2o300dj9gtg4f21g3hd@inr
 DROP FUNCTION IF EXISTS inr.search_group;
 
 CREATE OR REPLACE FUNCTION inr.search_group (
@@ -25,13 +26,13 @@ BEGIN
       g.color,
       g.active,
       g.super
-  FROM inr."Group" AS g
+  FROM inr."group" AS g
   WHERE (groupName IS NULL OR g.name ILIKE groupName || '%')
   AND (groupCanonical IS NULL OR g.canonical ILIKE groupCanonical || '%')
   AND g.active = groupActive
   AND g.super = groupSuper
-  AND g."deletedAt" ISNULL
-  AND g."deletedById" ISNULL
+  AND g.deleted_at IS NULL
+  AND g.deleted_by_id IS NULL
   ORDER BY g.name DESC
   LIMIT groupLimit
   OFFSET groupOffset * groupLimit;

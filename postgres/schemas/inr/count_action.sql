@@ -12,14 +12,14 @@ BEGIN
     SELECT
       count(*)
     FROM
-      inr."Action" AS a
+      inr."action" AS a
     WHERE 
       (nameAction IS NULL 
         OR a.name ILIKE nameAction || '%')
       AND (canonicalName IS NULL 
         OR a.canonical ILIKE canonicalName || '%')
-      AND a."deletedAt" ISNULL
-      AND a."deletedById" ISNULL
+      AND a.deleted_at ISNULL
+      AND a.deleted_by_id ISNULL
   );
 END;
 $$ LANGUAGE plpgsql;

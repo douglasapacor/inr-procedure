@@ -10,10 +10,10 @@ declare
   res_count INTEGER;
 BEGIN
   UPDATE 
-    inr."DeviceComponent" 
+    inr.device_component 
   SET
-    "deletedById" = deletedBy,
-    "deletedAt" = now()
+    deleted_by_id = deletedBy,
+    deleted_at = now()
   WHERE 
     id = idDevice;
     

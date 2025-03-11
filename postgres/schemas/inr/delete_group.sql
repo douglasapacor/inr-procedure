@@ -9,13 +9,13 @@ DECLARE
     res_count integer;
 BEGIN
   DELETE 
-    FROM inr."GroupFeature"
+    FROM inr.group_feature
   WHERE 
-    "groupId" = groupId;
+    "group_id" = groupId;
     
-  UPDATE inr."Group" SET
-    "deletedById" = deletedBy,
-    "deletedAt" = now()
+  UPDATE inr.group SET
+    deleted_by_id = deletedBy,
+    deleted_at = now()
   WHERE id = groupId;
 
   GET DIAGNOSTICS res_count = ROW_COUNT;

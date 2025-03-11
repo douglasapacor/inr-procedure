@@ -17,21 +17,21 @@ BEGIN
     SELECT 
         COUNT(us.id)
     FROM 
-      inr."User" us
-    INNER JOIN inr."Profile" pr
-      ON pr."userId" = us.id
-    INNER JOIN inr."Group" gr
-      ON gr.id = us."groupId"
+      inr."user" us
+    INNER JOIN inr.profile pr
+      ON pr.user_id = us.id
+    INNER JOIN inr."group" gr
+      ON gr.id = us.group_id
     WHERE (userName IS NULL OR pr.name ILIKE userName || '%')
     AND (userEmail IS NULL OR pr.email ILIKE userEmail || '%')
     AND (userCpf IS NULL OR pr.cpf ILIKE userCpf || '%')
     AND (userRg IS NULL OR pr.rg ILIKE userRg || '%')
     AND (userCellphone IS NULL OR pr.cellphone ILIKE userCellphone || '%')
-    AND (groupId IS NULL OR us."groupId" = groupId)
+    AND (groupId IS NULL OR us.group_id = groupId)
     AND us.active = userActive
     AND us.super = userSuper
-    AND us."deletedAt" IS NULL
-    AND us."deletedById" IS NULL
+    AND us.deleted_at IS NULL
+    AND us.deleted_by_id IS NULL
   );
 END;
 $$ LANGUAGE plpgsql;

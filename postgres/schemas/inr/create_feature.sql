@@ -18,16 +18,16 @@ DECLARE
   action_id INTEGER;
 BEGIN
   INSERT 
-    INTO inr."Feature" (
+    INTO inr.feature (
       name, 
       canonical, 
       active, 
       icon, 
       path, 
       visible, 
-      "deviceComponentsId", 
-      "createdById", 
-      "createdAt"
+      device_components_id, 
+      created_by_id, 
+      created_at
     ) VALUES (
       featureName,
       featureCanonical,
@@ -40,10 +40,11 @@ BEGIN
       now()
     ) RETURNING id
     INTO ret_id;
+    
     FOREACH action_id IN ARRAY actions LOOP
-      INSERT INTO inr."FeatureAction" (
-        "featureId", 
-        "actionId"
+      INSERT INTO inr.feature_action (
+        feature_id, 
+        action_id
       ) VALUES (
         ret_id,
         action_id

@@ -1,55 +1,56 @@
+-- Active: 1729025248584@@52.54.164.215@9002@clnxiu2o300dj9gtg4f21g3hd@inr
 DROP FUNCTION IF EXISTS inr.get_permissions;
 
 CREATE OR REPLACE FUNCTION inr.get_permissions (
   uuser_id INTEGER
 ) RETURNS TABLE (
-  featureId INTEGER,
-  featureName VARCHAR(100),
-  featureIcon VARCHAR(100),
-  featurePath VARCHAR(300),
-  featureCanonical VARCHAR(100),
-  featureDeviceComponentId INTEGER,
-  featureVisible BOOLEAN,
-  featureDeviceComponentName VARCHAR(100),
-  featureDeviceId INTEGER,
+  id INTEGER,
+  name VARCHAR(100),
+  icon VARCHAR(100),
+  path VARCHAR(300),
+  canonical VARCHAR(100),
+  device_id INTEGER,
+  visible BOOLEAN,
+  device_name VARCHAR(100),
+  device_id INTEGER,
   actions JSONB
 )
 AS $$
 BEGIN
   RETURN QUERY  
   SELECT
-    DISTINCT(pm."featureId"),
-    fe.name AS "featureName",
+    DISTINCT(pm."feature_id") AS "id",
+    fe.name,
     fe.icon,
     fe.path,
     fe.canonical,
-    fe."deviceComponentsId",
+    fe.device_components_id,
     fe.visible,
-    dc.name AS "deviceName",
-    dc."deviceId",
+    dc.name AS "device_name",
+    dc."device_id",
     (
       SELECT 
-        json_agg(jsonb_build_object('id', fa."actionId", 'name', ac.name, 'canonical', ac.canonical))::JSONB
+        json_agg(jsonb_build_object('id', fa."action_id", 'name', ac.name, 'canonical', ac.canonical))::JSONB
       FROM 
-        inr."FeatureAction" fa
-      INNER JOIN inr."Action" ac
-        ON ac.id = fa."actionId"
+        inr.feature_action fa
+      INNER JOIN inr."action" ac
+        ON ac.id = fa.action_id
       WHERE 
-        fa."featureId" = pm."featureId"
+        fa.feature_id = pm.feature_id
       AND 
-        ac."deletedAt" IS NULL
+        ac.deleted_at IS NULL
       AND
-        ac."deletedById" is null
+        ac.deleted_by_id IS NULL
     ) AS actions
-  FROM inr."Permission" pm
-  LEFT JOIN inr."Feature" fe
-    ON fe.id = pm."featureId"
-  LEFT JOIN inr."DeviceComponent" dc
-    ON dc.id = fe."deviceComponentsId"
-  WHERE pm."userId" = uuser_id
-  AND pm."deletedAt" IS NULL
-  AND pm."deletedById" IS NULL
-  AND fe."deletedAt" IS NULL
-  AND fe."deletedById" IS NULL;
+  FROM inr.permission pm
+  LEFT JOIN inr.feature fe
+    ON fe.id = pm."feature_id"
+  LEFT JOIN inr.device_component dc
+    ON dc.id = fe.device_components_id
+  WHERE pm.user_id = uuser_id
+  AND pm.deleted_at IS NULL
+  AND pm.deleted_by_id IS NULL
+  AND fe.deleted_at IS NULL
+  AND fe.deleted_by_id IS NULL;
 END;
 $$ LANGUAGE plpgsql;
