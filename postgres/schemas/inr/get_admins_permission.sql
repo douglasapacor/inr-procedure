@@ -41,10 +41,6 @@ BEGIN
       ac.id = fa.action_id
     WHERE
       fa.feature_id = f.id
-      AND 
-      ac.deleted_at IS NULL
-      AND
-      ac.deleted_by_id IS NULL
     ) AS actions
   FROM
     inr.feature f

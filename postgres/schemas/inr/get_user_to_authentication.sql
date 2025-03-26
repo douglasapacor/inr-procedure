@@ -17,7 +17,8 @@ CREATE OR REPLACE FUNCTION inr.get_user_to_authentication (
   email VARCHAR(200),
   cpf  VARCHAR(14),
   rg VARCHAR(11),
-  cellphone  VARCHAR(11)
+  cellphone  VARCHAR(11),
+  photo  VARCHAR(300)
 ) AS $$
 BEGIN
   RETURN QUERY
@@ -35,7 +36,8 @@ BEGIN
     pr.email,
     pr.cpf,
     pr.rg,
-    pr.cellphone
+    pr.cellphone,
+    pr.photo
   FROM inr.user us
   INNER JOIN inr.profile pr
     ON pr.user_id = uuserId

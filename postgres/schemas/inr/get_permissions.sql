@@ -12,7 +12,6 @@ CREATE OR REPLACE FUNCTION inr.get_permissions (
   device_id INTEGER,
   visible BOOLEAN,
   device_name VARCHAR(100),
-  device_id INTEGER,
   actions JSONB
 )
 AS $$
@@ -27,7 +26,6 @@ BEGIN
     fe.device_components_id,
     fe.visible,
     dc.name AS "device_name",
-    dc."device_id",
     (
       SELECT 
         json_agg(jsonb_build_object('id', fa."action_id", 'name', ac.name, 'canonical', ac.canonical))::JSONB
@@ -37,10 +35,6 @@ BEGIN
         ON ac.id = fa.action_id
       WHERE 
         fa.feature_id = pm.feature_id
-      AND 
-        ac.deleted_at IS NULL
-      AND
-        ac.deleted_by_id IS NULL
     ) AS actions
   FROM inr.permission pm
   LEFT JOIN inr.feature fe
