@@ -1,0 +1,21 @@
+CREATE TABLE user (
+    id INT auto_increment NOT NULL,
+    password varchar(500) NOT NULL,
+    confirmation_code varchar(100) NULL,
+    need_change BOOL DEFAULT false NOT NULL,
+    active BOOL DEFAULT false NOT NULL,
+    socket varchar(100) NULL,
+    connected BOOL DEFAULT false NOT NULL,
+    super BOOL DEFAULT false NOT NULL,
+    group_id INT NOT NULL,
+    created_by_id INT NULL,
+    updated_by_id INT NULL,
+    deleted_by_id INT NULL,
+    created_at DATETIME NULL,
+    updated_at DATETIME NULL,
+    deleted_at DATETIME NULL,
+    CONSTRAINT user_pk PRIMARY KEY (id),
+    CONSTRAINT user_user_FK FOREIGN KEY (created_by_id) REFERENCES `user` (id),
+    CONSTRAINT user_user_FK_1 FOREIGN KEY (updated_by_id) REFERENCES `user` (id),
+    CONSTRAINT user_user_FK_2 FOREIGN KEY (deleted_by_id) REFERENCES `user` (id)
+);
