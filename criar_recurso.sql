@@ -1,4 +1,4 @@
--- Active: 1743113460132@@127.0.0.1@3306@desenv
+-- Active: 1744652968446@@inrpublicacoes.mysql.dbaas.com.br@3306@inrpublicacoes
 DROP PROCEDURE IF EXISTS criar_recurso;
 
 CREATE PROCEDURE criar_recurso (
